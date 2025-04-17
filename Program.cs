@@ -26,6 +26,8 @@ namespace WebApp
             } );
 
             var app = builder.Build();
+
+            app.UseStatusCodePagesWithRedirects("/Home/Error?statuscode={0}");
             
             app.UseSession();
 
@@ -43,13 +45,30 @@ namespace WebApp
             app.UseAuthorization();
 
             app.MapStaticAssets();
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
-                .WithStaticAssets();
+			app.UseStaticFiles();
 
-            //Seeding Data
-            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<DataContext>();
+			app.MapControllerRoute(
+				name: "Areas",
+				pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}")
+				.WithStaticAssets();
+
+            app.MapControllerRoute(
+                name: "Category",
+                pattern: "/Category/{Slug?}",
+                defaults: new { controller = "Category", action = "Index" });
+
+			app.MapControllerRoute(
+				name: "Brand",
+				pattern: "/Brand/{Slug?}",
+				defaults: new { controller = "Brand", action = "Index" });
+
+			app.MapControllerRoute(
+				name: "default",
+				pattern: "{controller=Home}/{action=Index}/{id?}")
+				.WithStaticAssets();
+
+			//Seeding Data
+			var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<DataContext>();
             SeedData.SeedingData(context);
 
             app.Run();

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ProductModel>
+@{
+	ViewData["title"] = "Product Listed";
+}
+<h3>List Products</h3>
+<a asp-area="Admin" asp-action="Create" asp-controller="Product">Add new product</a>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col"></th>
+			<th scope="col">Product Name</th>
+			<th scope="col">Description</th>
+			<th scope="col">Price</th>
+			<th scope="col">Image</th>
+			<th scope="col">Slug</th>
+			<th scope="col">Category</th>
+			<th scope="col">Brand</th>
+			<th scope="col">Product Manage</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		
+		@foreach (var item in Model.Select((product, index) => new { product, index }))
+		{
+			<tr>
+				<th scope="row">@(item.index + 1)</th> <!-- Hiển thị số thứ tự -->
+				<td>@item.product.Name</td>
+				<td>@Html.Raw(@item.product.Description)</td>
+				<td>@item.product.Price</td>
+				<td><img src="~/images/@item.product.Image" width="100" /></td>
+				<td>@item.product.Slug</td>
+				<td>@item.product.Category.Name</td>
+				<td>@item.product.Brand.Name</td>
+				<td>
+					<a asp-action="Edit" class="btn btn-warning" asp-controller="Product" asp-route-Id="@item.product.Id">Edit</a>
+					<a asp-action="Delete" class="btn btn-danger confirmDeletion" asp-controller="Product" asp-route-Id="@item.product.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

@@ -19,7 +19,7 @@
 							<p>@item.Category.Name</p>
 							<p>@item.Brand.Name</p>
 							<div class="overlay-content">
-								<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+								<a class="btn btn-default add-to-cart" asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 							</div>
 						</div>
 					</div>

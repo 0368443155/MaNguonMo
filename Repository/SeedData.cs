@@ -22,20 +22,33 @@ namespace WebApp.Repository
 			//}
 			//else
 			//{
-				// Cập nhật dữ liệu image của sản phẩm Astrox 77 Pro
-				//var product = _context.Products.FirstOrDefault(p => p.Name == "Astrox 77 Pro");
-				//if (product != null)
-				//{
-				//	product.Image = "astrox77pro.webp";
-				//	_context.Products.Update(product);
-				//}
+			//Cập nhật dữ liệu image của sản phẩm Astrox 77 Pro
+			//var product = _context.Products.FirstOrDefault(p => p.Name == "Astrox 77 Pro");
+			//if (product != null)
+			//{
+			//	product.Image = "astrox77pro.webp";
+			//	_context.Products.Update(product);
+			//}
 
-			var product = _context.Products.FirstOrDefault(p => p.Name == "Lining Tectonic 6");
-			if (product != null)
-			{
-				product.Name = "Tectonic 6";
-				_context.Products.Update(product);
-			}
+			//var product = _context.Products.FirstOrDefault(p => p.Slug == "65z3");
+			//if (product != null)
+			//{
+			//	product.Image = "yonex65z3.webp";
+			//	_context.Products.Update(product);
+			//}
+			//}
+			//var brand = _context.Brands.FirstOrDefault(p => p.Name == "Yonex");
+			//var category = _context.Categories.FirstOrDefault(p => p.Name == "Giày Yonex");
+			//CategoryModel yonexShoes = new CategoryModel();
+			//if(category == null)
+			//{
+			//	yonexShoes = new CategoryModel { Name = "Yonex Shoes", Slug = "yonexShoes", Description = "Every Shoes are good", Status = 1 };
+			//}
+			//if (brand != null)
+			//{
+			//	_context.Products.Add(
+			//		new ProductModel { Name="Giày Yonex 65Z3", Slug = "65z3", Description="Best shoes ever", Image="65z3.webp", Category= yonexShoes, Brand = brand, Price = 15}
+			//		);
 			//}
 			_context.SaveChanges();
 		}
