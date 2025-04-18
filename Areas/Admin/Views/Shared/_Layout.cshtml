@@ -13,6 +13,9 @@
 	<link href="~/css/animate.css" rel="stylesheet">
 	<link href="~/css/main.css" rel="stylesheet">
 	<link href="~/css/responsive.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css" rel="stylesheet">
 	<!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
@@ -31,8 +34,6 @@
 			<!--header_top-->
 			<div class="container">
 				<div class="row">
-					
-					
 				</div>
 			</div>
 		</div><!--/header_top-->
@@ -46,10 +47,9 @@
 							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right">
-
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div><!--/header-middle-->
@@ -73,6 +73,10 @@
 								<li><a asp-controller="Product">Products</a></li>
 								<li><a asp-controller="Category">Categories</a></li>
 								<li><a asp-controller="Brand">Brands</a></li>
+								<li><a asp-controller="Order">Orders</a></li>
+								<li><a asp-controller="User">Manage Users</a></li>
+								<li><a asp-controller="Role">Manage Roles</a></li>
+								<li><a asp-controller="Coupon">Coupon</a></li>
 							</ul>
 						</div>
 					</div>
@@ -96,7 +100,7 @@
 
 	<footer id="footer">
 		<!--Footer-->
-		
+
 
 	</footer><!--/Footer-->
 
@@ -109,7 +113,20 @@
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
 	<script src="~/be/js/site.js"></script>
+	<script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.19.1/dist/sweetalert2.all.min.js"></script>
+	<script>
+		$(function (){
+			var message = '@TempData["success"]';
+			if (message != ''){
+				Swal.fire(message);
+			}
+		});
+	</script>
+	<script>
+		let table = new DataTable('#myTable');
+	</script>
 
-	@await RenderSectionAsync("Scripts", required:false)
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

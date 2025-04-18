@@ -5,5 +5,6 @@ namespace WebApp.Models.ViewModels
 	{
 		public List<CartModel> CartItems { get; set; }
 		public decimal GrandTotal {  get; set; }
+		public string CouponCode { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using WebApp.Models;
 using WebApp.Models.ViewModels;
@@ -17,10 +18,13 @@ namespace WebApp.Controllers
 		{
 			//lay tu httpcontext cac gia tri de tra ve cho cartItem hoac tao 1 list moi neu khong co gia tri nao nhan duoc tu httpContext
 			List<CartModel> cartItems = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
+			//Nhận Coupon code từ cookie
+			var coupon_code = Request.Cookies["CouponTitle"];
 			CartViewModel cartViewModel = new()
 			{
 				CartItems = cartItems,
-				GrandTotal = cartItems.Sum(x => x.Quantity * x.Price)
+				GrandTotal = cartItems.Sum(x => x.Quantity * x.Price),
+				CouponCode = coupon_code
 			};
 			
 			return View(cartViewModel);
@@ -125,5 +129,56 @@ namespace WebApp.Controllers
 			TempData["success"] = "Clear cart successfully!";
 			return RedirectToAction("Index");
 		}
+		[HttpPost]
+		[Route("Cart/GetCoupon")]
+		public async Task<IActionResult> GetCoupon(CouponModel couponModel, string coupon_value)
+		{
+			var validCoupon = await _dataContext.Coupons
+				.FirstOrDefaultAsync(x => x.Name == coupon_value && x.Quantity >= 1);
+
+			string couponTitle = validCoupon.Name + " | " + validCoupon?.Description;
+
+			if (couponTitle != null)
+			{
+				TimeSpan remainingTime = validCoupon.DateExpired - DateTime.Now;
+				int daysRemaining = remainingTime.Days;
+
+				if (daysRemaining >= 0)
+				{
+					try
+					{
+						var cookieOptions = new CookieOptions
+						{
+							HttpOnly = true,
+							Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+							Secure = true,
+							SameSite = SameSiteMode.Strict // Kiểm tra tính tương thích trình duyệt
+						};
+
+						Response.Cookies.Append("CouponTitle", couponTitle, cookieOptions);
+						return Ok(new { success = true, message = "Coupon applied successfully" });
+					}
+					catch (Exception ex)
+					{
+						//trả về lỗi 
+						Console.WriteLine($"Error adding apply coupon cookie: {ex.Message}");
+						return Ok(new { success = false, message = "Coupon applied failed" });
+					}
+				}
+				else
+				{
+
+					return Ok(new { success = false, message = "Coupon has expired" });
+				}
+
+			}
+			else
+			{
+				return Ok(new { success = false, message = "Coupon not existed" });
+			}
+
+			return Json(new { CouponTitle = couponTitle });
+		}
+
 	}
 }

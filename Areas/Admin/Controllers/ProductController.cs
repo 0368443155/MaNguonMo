@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 using WebApp.Repository;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize]
 	public class ProductController : Controller
 	{
 		private readonly DataContext _dataContext;

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<AppUserModel>
+@{
+	ViewData["title"] = "User Listed";
+}
+<h3>List Categories</h3>
+<a asp-action="Create" asp-controller="Category">Add new User</a>
+<table class="table" id="myTable">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">User Name</th>
+			<th scope="col">Email</th>
+			<th scope="col">Password Hash</th>
+			<th scope="col">Phone Number</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<th scope="row">@item.Id</th> <!-- Hiển thị số thứ tự -->
+				<td>@item.UserName</td>
+				<td>@item.Email</td>
+				<td>@item.PasswordHash</td>
+				<td>@item.PhoneNumber</td>
+				<td>
+					<a asp-action="Edit" class="btn btn-warning" asp-controller="User" asp-route-Id="@item.Id">Edit</a>
+					<a asp-action="Delete" class="btn btn-danger confirmDeletion" asp-controller="User" asp-route-Id="@item.Id">Delete</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
