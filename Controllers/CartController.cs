@@ -20,11 +20,34 @@ namespace WebApp.Controllers
 			List<CartModel> cartItems = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
 			//Nhận Coupon code từ cookie
 			var coupon_code = Request.Cookies["CouponTitle"];
+			// Tính tổng tiền ban đầu
+			decimal total = cartItems.Sum(x => x.Quantity * x.Price);
+
+			int discountPercent = 0;
+			string couponCode = string.Empty;
+
+			if (!string.IsNullOrEmpty(coupon_code))
+			{
+				// Lấy mã thực sự từ phần đầu tên cookie (VD: "SAVE10 | Giảm 10%" => "SAVE10")
+				couponCode = coupon_code.Split(" | ")[0];
+
+				// Lấy coupon từ DB
+				var coupon = _dataContext.Coupons.FirstOrDefault(x => x.Name == couponCode);
+				if (coupon != null && coupon.Quantity >= 1 && coupon.DateExpired > DateTime.Now)
+				{
+					discountPercent = coupon.Quantity;
+				}
+			}
+			// Áp dụng giảm giá nếu có
+			decimal discountAmount = total * discountPercent / 100;
+			decimal grandTotal = total - discountAmount;
+
 			CartViewModel cartViewModel = new()
 			{
 				CartItems = cartItems,
 				GrandTotal = cartItems.Sum(x => x.Quantity * x.Price),
-				CouponCode = coupon_code
+				CouponCode = coupon_code,
+				DiscountPercent = discountPercent
 			};
 			
 			return View(cartViewModel);

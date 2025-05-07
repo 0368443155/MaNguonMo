@@ -40,6 +40,7 @@ namespace WebApp.Controllers
 				_dataContext.SaveChanges();
 
 				List<CartModel> cartItems = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
+				
 				foreach(var cart in cartItems)
 				{
 					var orderDetails = new OrderDetail();

@@ -61,6 +61,7 @@
 						}
 						<tr>
 							<td rowspan="5">
+								<p>Discount: @Model.DiscountPercent%</p>
 								Grand Total: <p class="cart_total_price">@Model.GrandTotal.ToString("#,##0 $")</p>
 								<form>
 									Coupon Code: <input type="text" class="form-control coupon-value" />
@@ -68,7 +69,7 @@
 
 									<input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
 								</form>
-								<a asp-action="Checkout" asp-controller="Checkout" class="btn btn-success"> </a>
+								<a asp-action="Checkout" asp-controller="Checkout" class="btn btn-success">Apply</a>
 							</td>
 							<td colspan="3"><a class="btn btn-danger btn-sm" asp-action="Clear" asp-controller="Cart"> Xóa tất cả </a></td>
 						</tr>

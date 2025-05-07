@@ -59,8 +59,6 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
 				return StatusCode(500, "An error occurred while updating the order status.");
 			}
 		}
-		[HttpGet]
-		[Route("Delete")]
 		public async Task<IActionResult> Delete(string ordercode)
 		{
 			var order = await _dataContext.Orders.FirstOrDefaultAsync(o => o.OrderCode == ordercode);
